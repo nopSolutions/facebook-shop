@@ -244,7 +244,6 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
                                 #endregion
                             }
                             break;
-                        case ProductType.SimpleProduct:
                         default:
                             {
                                 #region Simple product
@@ -394,12 +393,12 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
         [AdminAuthorize]
         public ActionResult Configure()
         {
-            return View("~/Plugins/Misc.FacebookShop/Views/MiscFacebookShop/Configure.cshtml");
+            return View("~/Plugins/Misc.FacebookShop/Views/Configure.cshtml");
         }
 
         public ActionResult Index()
         {
-            return View("~/Plugins/Misc.FacebookShop/Views/MiscFacebookShop/Index.cshtml");
+            return View("~/Plugins/Misc.FacebookShop/Views/Index.cshtml");
         }
 
         public ActionResult HomePageProducts()
@@ -409,7 +408,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
             products = products.Where(p => _aclService.Authorize(p) && _storeMappingService.Authorize(p)).ToList();
 
             var model = PrepareProductOverviewModels(products).ToList();
-            return PartialView("~/Plugins/Misc.FacebookShop/Views/MiscFacebookShop/HomePageProducts.cshtml", model);
+            return PartialView("~/Plugins/Misc.FacebookShop/Views/HomePageProducts.cshtml", model);
         }
 
         public ActionResult CategoryNavigation()
@@ -420,7 +419,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
                 _storeContext.CurrentStore.Id);
             var model = _cacheManager.Get(cacheKey, () => PrepareCategorySimpleModels(0, null, true).ToList());
 
-            return PartialView("~/Plugins/Misc.FacebookShop/Views/MiscFacebookShop/CategoryNavigation.cshtml", model);
+            return PartialView("~/Plugins/Misc.FacebookShop/Views/CategoryNavigation.cshtml", model);
         }
 
         public ActionResult Category(int categoryId, CatalogPagingFilteringModel command)
@@ -506,7 +505,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
 
             model.PagingFilteringContext.LoadPagedList(products);
 
-            return PartialView("~/Plugins/Misc.FacebookShop/Views/MiscFacebookShop/Category.cshtml", model);
+            return PartialView("~/Plugins/Misc.FacebookShop/Views/Category.cshtml", model);
         }
         
         [ValidateInput(false)]
@@ -554,7 +553,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
 
             model.PagingFilteringContext.LoadPagedList(products);
 
-            return View("~/Plugins/Misc.FacebookShop/Views/MiscFacebookShop/Search.cshtml", model);
+            return View("~/Plugins/Misc.FacebookShop/Views/Search.cshtml", model);
         }
 
         public ActionResult Footer()
@@ -564,7 +563,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
                 StoreName = _storeContext.CurrentStore.GetLocalized(x => x.Name)
             };
 
-            return PartialView("~/Plugins/Misc.FacebookShop/Views/MiscFacebookShop/Footer.cshtml", model);
+            return PartialView("~/Plugins/Misc.FacebookShop/Views/Footer.cshtml", model);
         }
 
         #endregion
