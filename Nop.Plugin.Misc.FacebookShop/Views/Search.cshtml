@@ -2,7 +2,7 @@
 @using Nop.Plugin.Misc.FacebookShop.Models;
 @using Nop.Plugin.Misc.FacebookShop.Extensions;
 @{
-    Layout = "~/Plugins/Misc.FacebookShop/Views/MiscFacebookShop/Layout.cshtml";
+    Layout = "~/Plugins/Misc.FacebookShop/Views/Layout.cshtml";
 }
 <div class="page search-page">
     <div class="page-title">
@@ -39,7 +39,7 @@
                     @foreach (var product in Model.Products)
                     {
                         <div class="item-box">
-                            @Html.Partial("~/Plugins/Misc.FacebookShop/Views/MiscFacebookShop/ProductBox.cshtml", product)
+                            @Html.Partial("~/Plugins/Misc.FacebookShop/Views/ProductBox.cshtml", product)
                         </div>
                     }
                 </div>
