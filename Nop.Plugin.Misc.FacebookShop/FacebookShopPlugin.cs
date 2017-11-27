@@ -1,4 +1,4 @@
-﻿using System.Web.Routing;
+﻿using Nop.Core;
 using Nop.Core.Plugins;
 using Nop.Services.Common;
 
@@ -6,19 +6,26 @@ namespace Nop.Plugin.Misc.FacebookShop
 {
     public class FacebookShopPlugin : BasePlugin, IMiscPlugin
     {
-        #region Methods
+        #region Fields
 
-        /// <summary>
-        /// Gets a route for provider configuration
-        /// </summary>
-        /// <param name="actionName">Action name</param>
-        /// <param name="controllerName">Controller name</param>
-        /// <param name="routeValues">Route values</param>
-        public void GetConfigurationRoute(out string actionName, out string controllerName, out RouteValueDictionary routeValues)
+        private readonly IWebHelper _webHelper;
+
+        #endregion
+
+        #region Ctor
+
+        public FacebookShopPlugin(IWebHelper webHelper)
         {
-            actionName = "Configure";
-            controllerName = "MiscFacebookShop";
-            routeValues = new RouteValueDictionary { { "Namespaces", "Nop.Plugin.Misc.FacebookShop.Controllers" }, { "area", null } };
+            this._webHelper = webHelper;
+        }
+
+        #endregion
+        
+        #region Methods
+        
+        public override string GetConfigurationPageUrl()
+        {
+            return $"{_webHelper.GetStoreLocation()}Admin/MiscFacebookShop/Configure";
         }
 
         #endregion

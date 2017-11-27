@@ -1,4 +1,4 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Nop.Web.Framework.UI.Paging;
 
 namespace Nop.Plugin.Misc.FacebookShop.Extensions

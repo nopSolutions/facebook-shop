@@ -1,0 +1,24 @@
+﻿@model Nop.Plugin.Misc.FacebookShop.Models.RenderCategoryLineModel
+
+<li @(Model.LastItem ? Html.Raw(" class=\"last\"") : null)>
+    <a href="@Url.RouteUrl("Plugin.Misc.FacebookShop.Category", new { categoryId = Model.Category.Id })">@Model.Category.Name</a>
+    @{
+        var levelClass = "";
+        if (Model.Level == 0)
+        {
+            levelClass = "firstLevel";
+            <div class="top-menu-triangle"></div>
+        }
+        if (Model.Category.SubCategories.Count > 0)
+        {
+            <ul class="sublist @levelClass">
+                @for (var i = 0; i < Model.Category.SubCategories.Count; i++)
+                {
+                    var subCategory = Model.Category.SubCategories[i];
+                    //@RenderCategoryLine(subCategory, level + 1, )
+                    @await Component.InvokeAsync("RenderCategoryLine", new { category = subCategory, level = Model.Level + 1, lastItem = i == Model.Category.SubCategories.Count - 1 })
+                }
+            </ul>
+        }
+    }
+</li>

@@ -31,7 +31,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Infrastructure.Cache
         public ModelCacheEventConsumer()
         {
             //TODO inject static cache manager using constructor
-            this._cacheManager = EngineContext.Current.ContainerManager.Resolve<ICacheManager>("nop_cache_static");
+            this._cacheManager = EngineContext.Current.Resolve<IStaticCacheManager>();
         }
 
         //categories

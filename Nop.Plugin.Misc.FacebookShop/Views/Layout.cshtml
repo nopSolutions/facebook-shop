@@ -1,21 +1,27 @@
-﻿<!DOCTYPE html>
+﻿@{
+    Html.AddCssFileParts("~/Plugins/Misc.FacebookShop/Content/styles.css");
+    Html.AddScriptParts("~/Plugins/Misc.FacebookShop/Scripts/jquery-1.10.2.min.js");
+}
+<!DOCTYPE html>
 <html>
 <head>
     <title>Facebook store</title>
-    <link href="@Url.Content("~/Plugins/Misc.FacebookShop/Content/styles.css")" type="text/css" rel="stylesheet" />
-    <script src="@Url.Content("~/Plugins/Misc.FacebookShop/Scripts/jquery-1.10.2.min.js")"></script>
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    @Html.NopCssFiles(this.Url, ResourceLocation.Head, false)
+    @Html.NopScripts(this.Url, ResourceLocation.Head, false)
 </head>
 <body>
     <div class="master-wrapper-page">
         @Html.Partial("~/Plugins/Misc.FacebookShop/Views/Header.cshtml")
         <div class="header-menu">
-            @Html.Action("CategoryNavigation", "MiscFacebookShop")
+            @await Component.InvokeAsync("MiscFacebookShopCategoryNavigation")
+
         </div>
         <div class="master-wrapper-main">
             @RenderBody()
         </div>
-        @Html.Action("Footer", "MiscFacebookShop")
+        @await Component.InvokeAsync("MiscFacebookShopFooter")
+
     </div>
 </body>
 </html>

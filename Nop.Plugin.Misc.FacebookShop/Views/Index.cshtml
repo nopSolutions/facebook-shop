@@ -3,6 +3,6 @@
 }
 <div class="page home-page">
     <div class="page-body">
-        @Html.Action("HomePageProducts", "MiscFacebookShop")
+        @await Component.InvokeAsync("HomePageProducts")
     </div>
 </div>
