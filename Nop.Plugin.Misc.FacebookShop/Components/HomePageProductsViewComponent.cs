@@ -32,6 +32,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Components
         private readonly IStoreContext _storeContext;
         private readonly IStoreMappingService _storeMappingService;
         private readonly ITaxService _taxService;
+        private readonly IUrlRecordService _urlRecordService;
         private readonly IWorkContext _workContext;
 
         public HomePageProductsViewComponent(IAclService aclService,
@@ -45,6 +46,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Components
             IStoreContext storeContext,
             IStoreMappingService storeMappingService,
             ITaxService taxService,
+            IUrlRecordService urlRecordService,
             IWorkContext workContext)
         {
             this._aclService = aclService;
@@ -58,6 +60,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Components
             this._storeContext = storeContext;
             this._storeMappingService = storeMappingService;
             this._taxService = taxService;
+            this._urlRecordService = urlRecordService;
             this._workContext = workContext;
         }
 
@@ -85,10 +88,10 @@ namespace Nop.Plugin.Misc.FacebookShop.Components
                 var model = new ProductOverviewModel
                 {
                     Id = product.Id,
-                    Name = product.GetLocalized(x => x.Name),
-                    ShortDescription = product.GetLocalized(x => x.ShortDescription),
-                    FullDescription = product.GetLocalized(x => x.FullDescription),
-                    SeName = product.GetSeName(),
+                    Name = _localizationService.GetLocalized(product, x => x.Name),
+                    ShortDescription = _localizationService.GetLocalized(product, x => x.ShortDescription),
+                    FullDescription = _localizationService.GetLocalized(product, x => x.FullDescription),
+                    SeName = _urlRecordService.GetSeName(product),
                 };
                 //price
                 if (preparePriceModel)

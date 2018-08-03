@@ -3,10 +3,10 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
 using Nop.Core.Caching;
+using Nop.Core.Domain.Customers;
 using Nop.Plugin.Misc.FacebookShop.Infrastructure.Cache;
 using Nop.Plugin.Misc.FacebookShop.Models;
 using Nop.Services.Catalog;
-using Nop.Services.Customers;
 using Nop.Services.Localization;
 using Nop.Services.Seo;
 using Nop.Web.Framework.Components;
@@ -20,16 +20,22 @@ namespace Nop.Plugin.Misc.FacebookShop.Components
         private readonly IWorkContext _workContext;
         private readonly ICacheManager _cacheManager;
         private readonly ICategoryService _categoryService;
+        private readonly IUrlRecordService _urlRecordService;
+        private readonly ILocalizationService _localizationService;
 
         public MiscFacebookShopCategoryNavigationViewComponent(IStoreContext storeContext,
             IWorkContext workContext,
             ICacheManager cacheManager,
-            ICategoryService categoryService)
+            ICategoryService categoryService,
+            IUrlRecordService urlRecordService,
+            ILocalizationService localizationService)
         {
             this._storeContext = storeContext;
             this._workContext = workContext;
             this._cacheManager = cacheManager;
             this._categoryService = categoryService;
+            this._urlRecordService = urlRecordService;
+            this._localizationService = localizationService;
         }
 
         public IViewComponentResult Invoke()
@@ -58,8 +64,8 @@ namespace Nop.Plugin.Misc.FacebookShop.Components
                 var categoryModel = new CategoryModel
                 {
                     Id = category.Id,
-                    Name = category.GetLocalized(x => x.Name),
-                    SeName = category.GetSeName()
+                    Name = _localizationService.GetLocalized(category, x => x.Name),
+                    SeName = _urlRecordService.GetSeName(category)
                 };
 
                 //load subcategories?

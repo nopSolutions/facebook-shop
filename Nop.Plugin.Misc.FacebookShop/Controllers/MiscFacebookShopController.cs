@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Nop.Core;
-using Nop.Core.Caching;
 using Nop.Core.Domain.Catalog;
 using Nop.Plugin.Misc.FacebookShop.Models;
 using Nop.Services.Catalog;
@@ -21,7 +20,6 @@ using Nop.Web.Framework.Mvc.Filters;
 
 namespace Nop.Plugin.Misc.FacebookShop.Controllers
 {
-
     public class MiscFacebookShopController : BasePluginController
     {
         #region Fields
@@ -39,6 +37,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
         private readonly IStoreContext _storeContext;
         private readonly IStoreMappingService _storeMappingService;
         private readonly ITaxService _taxService;
+        private readonly IUrlRecordService _urlRecordService;
         private readonly IWorkContext _workContext;
 
         #endregion
@@ -58,6 +57,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
             IStoreContext storeContext,
             IStoreMappingService storeMappingService,
             ITaxService taxService,
+            IUrlRecordService urlRecordService,
             IWorkContext workContext)
         {
             this._aclService = aclService;
@@ -73,6 +73,7 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
             this._storeContext = storeContext;
             this._storeMappingService = storeMappingService;
             this._taxService = taxService;
+            this._urlRecordService = urlRecordService;
             this._workContext = workContext;
         }
         
@@ -96,10 +97,10 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
                 var model = new ProductOverviewModel
                 {
                     Id = product.Id,
-                    Name = product.GetLocalized(x => x.Name),
-                    ShortDescription = product.GetLocalized(x => x.ShortDescription),
-                    FullDescription = product.GetLocalized(x => x.FullDescription),
-                    SeName = product.GetSeName(),
+                    Name = _localizationService.GetLocalized(product, x => x.Name),
+                    ShortDescription = _localizationService.GetLocalized(product, x => x.ShortDescription),
+                    FullDescription = _localizationService.GetLocalized(product, x => x.FullDescription),
+                    SeName = _urlRecordService.GetSeName(product),
                 };
                 //price
                 if (preparePriceModel)
@@ -378,19 +379,19 @@ namespace Nop.Plugin.Misc.FacebookShop.Controllers
             var model = new CategoryModel
             {
                 Id = category.Id,
-                Name = category.GetLocalized(x => x.Name),
-                SeName = category.GetSeName(),
-                Description = category.GetLocalized(x => x.Description),
+                Name = _localizationService.GetLocalized(category, x => x.Name),
+                SeName = _urlRecordService.GetSeName(category),
+                Description = _localizationService.GetLocalized(category, x => x.Description),
                 SubCategories = _categoryService
                     .GetAllCategoriesByParentCategoryId(categoryId)
                     .Select(x =>
                     {
-                        var subCatName = x.GetLocalized(y => y.Name);
+                        var subCatName = _localizationService.GetLocalized(x, y => y.Name);
                         var subCatModel = new CategoryModel
                         {
                             Id = x.Id,
                             Name = subCatName,
-                            SeName = x.GetSeName(),
+                            SeName = _urlRecordService.GetSeName(x),
                         };
 
                         //prepare picture model

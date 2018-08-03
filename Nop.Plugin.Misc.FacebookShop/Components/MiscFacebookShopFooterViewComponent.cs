@@ -10,17 +10,20 @@ namespace Nop.Plugin.Misc.FacebookShop.Components
     public class MiscFacebookShopFooterViewComponent : NopViewComponent
     {
         private readonly IStoreContext _storeContext;
+        private readonly ILocalizationService _localizationService;
 
-        public MiscFacebookShopFooterViewComponent(IStoreContext storeContext)
+        public MiscFacebookShopFooterViewComponent(IStoreContext storeContext,
+            ILocalizationService localizationService)
         {
             this._storeContext = storeContext;
+            this._localizationService = localizationService;
         }
 
         public IViewComponentResult Invoke()
         {
             var model = new FooterModel
             {
-                StoreName = _storeContext.CurrentStore.GetLocalized(x => x.Name)
+                StoreName = _localizationService.GetLocalized(_storeContext.CurrentStore, x => x.Name)
             };
 
             return View("~/Plugins/Misc.FacebookShop/Views/Footer.cshtml", model);

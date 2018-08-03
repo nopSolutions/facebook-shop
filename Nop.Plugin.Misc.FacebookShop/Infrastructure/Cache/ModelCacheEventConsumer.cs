@@ -9,11 +9,11 @@ namespace Nop.Plugin.Misc.FacebookShop.Infrastructure.Cache
     /// <summary>
     /// Model cache event consumer (used for caching of presentation layer models)
     /// </summary>
-    public partial class ModelCacheEventConsumer: 
+    public partial class ModelCacheEventConsumer : 
         //categories
-        IConsumer<EntityInserted<Category>>,
-        IConsumer<EntityUpdated<Category>>,
-        IConsumer<EntityDeleted<Category>>
+        IConsumer<EntityInsertedEvent<Category>>,
+        IConsumer<EntityUpdatedEvent<Category>>,
+        IConsumer<EntityDeletedEvent<Category>>
     {
         /// <summary>
         /// Key for CategoryNavigationModel caching
@@ -35,15 +35,15 @@ namespace Nop.Plugin.Misc.FacebookShop.Infrastructure.Cache
         }
 
         //categories
-         public void HandleEvent(EntityInserted<Category> eventMessage)
+         public void HandleEvent(EntityInsertedEvent<Category> eventMessage)
         {
             _cacheManager.RemoveByPattern(CATEGORY_NAVIGATION_PATTERN_KEY);
         }
-        public void HandleEvent(EntityUpdated<Category> eventMessage)
+        public void HandleEvent(EntityUpdatedEvent<Category> eventMessage)
         {
             _cacheManager.RemoveByPattern(CATEGORY_NAVIGATION_PATTERN_KEY);
         }
-        public void HandleEvent(EntityDeleted<Category> eventMessage)
+        public void HandleEvent(EntityDeletedEvent<Category> eventMessage)
         {
             _cacheManager.RemoveByPattern(CATEGORY_NAVIGATION_PATTERN_KEY);
         }
